@@ -1,0 +1,8 @@
+# Intellij idea educational edition - Kotlin + java - Desktop apps -----------------------------------------------
+*.class
+*.kotlin_module
+*.jar
+*.MF
+
+*out/
+*target/
