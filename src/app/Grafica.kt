@@ -34,13 +34,13 @@ abstract class Grafica: SScrollPane(2, 2, 716, 620) {
     fun removeVertice() {
         val ventana = VentanaEmergente(getCurrentFrame(), 500, 80)
 
-        val lText = SLabel(30, 23, 240, 28,"Remueva un valor del árbol")
+        val lText = SLabel(30, 23, 240, 28,"Remueva un código ")
         ventana.add(lText)
 
         val taNum = STextField(235, 21, 100, 32)
         taNum.addActionListener {
             if(taNum.text.isNotEmpty()) {
-                arbol.retirar(taNum.text.toInt())
+                arbol.retirar(taNum.text.toDouble())
                 actualizar()
             }
             else {

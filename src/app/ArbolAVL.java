@@ -73,9 +73,9 @@ public class ArbolAVL {
         }
     }
 
-    public void retirar(int codigo) {
+    public void retirar(double codigo) {
         //El arbol tiene que existir y el valor tiene que estar en el árbol o el árbol no se modificará
-        if(!buscar(raiz, codigo).isEmpty()) {
+        if(buscar(raiz, codigo).isEmpty()) {
             return;
         }
         //si no tiene hijos, se elimina el nodo
