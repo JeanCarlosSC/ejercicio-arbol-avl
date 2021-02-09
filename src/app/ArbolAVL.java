@@ -41,9 +41,10 @@ public class ArbolAVL {
             q.right = nodo;
         }
         //balancea árbol AVL
+        calcularFactorBalance(raiz);
         do {
-            calcularFactorBalance(raiz);
             balancear(raiz);
+            calcularFactorBalance(raiz);
         }
         while(!estaBalanceado(raiz));
     }
@@ -66,6 +67,12 @@ public class ArbolAVL {
         else if(nodo.balance == 2 && nodo.left.balance == -1) {
             rotacionDobleDerecha(nodo);
         }
+        else if(nodo.balance == -2 && nodo.right.balance == 0) {
+            rotacionSimpleIzquierda(nodo);
+        }
+        else if(nodo.balance == 2 && nodo.left.balance == 0) {
+            rotacionSimpleDerecha(nodo);
+        }
         else {
             //balancea los demás nodos
             balancear(nodo.left);
@@ -82,71 +89,68 @@ public class ArbolAVL {
         NodoAVL nodo = obtenerNodo(raiz, codigo);
         if(nodo.left == null && nodo.right == null) {
             eliminar(raiz, nodo.codigo);
-            return;
-        }
-        //si no tiene sucesor
-        NodoAVL sucesor = obtenerSucesorIn(nodo);
-        NodoAVL antecesor = obtenerPariente(raiz, nodo);
-
-        if(sucesor==null) {
-            //si tiene antecesor
-            if(antecesor!=null) {
-                antecesor.right = nodo.left;
-            }
-            else {
-                raiz = nodo.left;
-            }
         }
         else {
-            //si existe pariente
-            NodoAVL pariente = obtenerPariente(raiz, sucesor);
+            //si no tiene sucesor
+            NodoAVL sucesor = obtenerSucesorIn(nodo);
+            NodoAVL antecesor = obtenerPariente(raiz, nodo);
 
-            if(pariente != null) {
-                //si el nodo es el pariente
-                if (pariente.codigo == nodo.codigo) {
-                    nodo.right = sucesor.right;
-                }
-                else {
-                    //si el sucesor es antecesor
-                    if(antecesor!=null && sucesor.codigo == antecesor.codigo) {
-                        antecesor.left = nodo.left;
-                    }
-                    else{
-                        //si el pariente es derecho
-                        if (pariente.left != null && pariente.left.codigo == sucesor.codigo) {
-                            pariente.left = sucesor.right;
-                        }
-                        else {
-                            pariente.right = sucesor.right;
-                        }
-                    }
+            if (sucesor == null) {
+                //si tiene antecesor
+                if (antecesor != null) {
+                    antecesor.right = nodo.left;
+                } else {
+                    raiz = nodo.left;
                 }
             }
             else {
-                raiz.left = nodo.left;
+                //si existe pariente
+                NodoAVL pariente = obtenerPariente(raiz, sucesor);
+
+                if (pariente != null) {
+                    //si el nodo es el pariente
+                    if (pariente.codigo == nodo.codigo) {
+                        nodo.right = sucesor.right;
+                    } else {
+                        //si el sucesor es antecesor
+                        if (antecesor != null && sucesor.codigo == antecesor.codigo) {
+                            antecesor.left = nodo.left;
+                        } else {
+                            //si el pariente es derecho
+                            if (pariente.left != null && pariente.left.codigo == sucesor.codigo) {
+                                pariente.left = sucesor.right;
+                            } else {
+                                pariente.right = sucesor.right;
+                            }
+                        }
+                    }
+                } else {
+                    raiz.left = nodo.left;
+                }
+                nodo.codigo = sucesor.codigo;
+                nodo.nombre = sucesor.nombre;
             }
-            nodo.codigo = sucesor.codigo;
         }
-        //balancea
+        //balancea árbol AVL
         calcularFactorBalance(raiz);
-        while(!estaBalanceado(raiz)) {
+        do {
             balancear(raiz);
             calcularFactorBalance(raiz);
         }
+        while(!estaBalanceado(raiz));
     }
 
     public void rotacionSimpleIzquierda(NodoAVL nodo) {
-        double codigo = nodo.codigo;
-        String nombre = nodo.nombre;
-        NodoAVL derecha = nodo.right.left;
+        NodoAVL r = nodo.right.left;
 
-        NodoAVL nuevo = new NodoAVL(codigo, nombre);
-        nuevo.left = nodo.left;
-        nuevo.right = derecha;
+        NodoAVL q = new NodoAVL(nodo.codigo, nodo.nombre);
+        q.left = nodo.left;
+        q.right = r;
 
         nodo.nombre = nodo.right.nombre;
         nodo.codigo = nodo.right.codigo;
-        nodo.left = nuevo;
+
+        nodo.left = q;
         nodo.right = nodo.right.right;
     }
 
@@ -159,6 +163,7 @@ public class ArbolAVL {
 
         nodo.nombre = nodo.left.nombre;
         nodo.codigo = nodo.left.codigo;
+
         nodo.right = q;
         nodo.left = nodo.left.left;
     }
@@ -180,8 +185,8 @@ public class ArbolAVL {
 
         p.right = r.left;
         r.left = p;
-
         nodo.left = r;
+
         rotacionSimpleDerecha(nodo);
     }
 
@@ -302,7 +307,7 @@ public class ArbolAVL {
         }
         //si tiene pariente derecho
         NodoAVL pariente = obtenerPariente(raiz, nodo);
-        if (pariente.left != null && pariente.left.codigo == nodo.codigo) {
+        if (pariente != null && pariente.left != null && pariente.left.codigo == nodo.codigo) {
             return pariente;
         }
         //else
