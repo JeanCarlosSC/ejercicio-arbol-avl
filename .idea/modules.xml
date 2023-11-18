@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Ejercicio árbol AVL.iml" filepath="$PROJECT_DIR$/Ejercicio árbol AVL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ejercicio-arbol-avl.iml" filepath="$PROJECT_DIR$/ejercicio-arbol-avl.iml" />
     </modules>
   </component>
 </project>
