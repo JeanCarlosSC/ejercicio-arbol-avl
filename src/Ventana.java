@@ -85,6 +85,7 @@ public class Ventana extends JFrame {
         setLocationRelativeTo(null); // Ventana centrada
         setLayout(null); // Layout con sistema de coordenadas
         getContentPane().setBackground(Resource.b3); // fondo
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true); // mostrar
     }
 }

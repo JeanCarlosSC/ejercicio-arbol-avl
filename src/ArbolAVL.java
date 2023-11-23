@@ -16,11 +16,12 @@ public class ArbolAVL {
             raiz = new NodoAVL(valor);
             return;
         }
+        /*
         //si ya está en el árbol
         if(!buscar(raiz, valor).isEmpty()) {
             JOptionPane.showMessageDialog(null, "El código "+valor+" ya está en el árbol");
             return;
-        }
+        }*/
         //si no está en el árbol
         NodoAVL p = raiz;
         NodoAVL q = null;
@@ -31,7 +32,7 @@ public class ArbolAVL {
                 q = p;
                 p = p.left;
             }
-            else if(valor > p.valor) {
+            else if(valor >= p.valor) {
                 q = p;
                 p = p.right;
             }
@@ -273,20 +274,20 @@ public class ArbolAVL {
     }
 
     private NodoAVL obtenerPariente(NodoAVL raiz, NodoAVL nodo) {
-        //si la raiz es nula
+        //si la raíz es nula
         if (raiz == null) {
             return null;
         }
-        //si el que se busca es la raiz
-        if (raiz.valor == nodo.valor) {
+        //si el que se busca es la raíz
+        if (raiz.equals(nodo)) {
             return null;
         }
-        //si la raiz no tiene hijos
+        //si la raíz no tiene hijos
         if (raiz.left == null && raiz.right == null) {
             return null;
         }
-        //si la raiz dada es pariente del nodo
-        if (raiz.left != null && raiz.left.valor == nodo.valor || raiz.right != null && raiz.right.valor == nodo.valor){
+        //si la raíz dada es pariente del nodo
+        if ((raiz.left != null && raiz.left.equals(nodo)) || (raiz.right != null && raiz.right.equals(nodo))){
             return raiz;
         }
         //else, busca en los sub-árboles
@@ -353,8 +354,12 @@ public class ArbolAVL {
         }
         if(isNotPosFree(raiz, x, y)) { // si la ubicacion está ocupada, acomoda los nodos
             var pariente = obtenerPariente(raiz, nodo);
-            final int xi = pariente.x+40;
-            final int yi = pariente.y+60;
+            int xi = 1000;
+            int yi = 1000;
+            if(pariente != null) {
+                xi = pariente.x+40;
+                yi = pariente.y+60;
+            }
             while (pariente != null) {
                 pariente.x+=154;
                 pariente = obtenerPariente(raiz, pariente);
